@@ -135,13 +135,13 @@ async def handle_generate(name: str, arguments: dict) -> str:
     safe_name = "".join(c if c.isalnum() or c in "-_" else "-" for c in brief[:30]).strip("-").lower()
     filename = f"{safe_name}-{skill_id}"
 
-    html_path, pdf_path = render(html, filename)
+    html_path, zip_path = render(html, filename)
 
     return json.dumps({
         "html_path": str(html_path),
-        "pdf_path": str(pdf_path),
-        "send_file": str(html_path),
-        "summary": f"Generated {skill_id.replace('_', ' ')} with '{design_system}' design system. Send this HTML file to the user: {html_path}",
+        "zip_path": str(zip_path),
+        "send_file": str(zip_path),
+        "summary": f"Generated {skill_id.replace('_', ' ')} with '{design_system}' design system. Send this file to the user: {zip_path} (contains the HTML design, open in browser)",
     }, indent=2)
 
 

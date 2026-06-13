@@ -53,7 +53,12 @@ def html_to_pdf(html_path: Path) -> Path:
 
 
 def render(html: str, name: str) -> tuple[Path, Path]:
-    """Save HTML and convert to PDF. Returns (html_path, pdf_path)."""
+    """Save HTML, zip it for WhatsApp delivery, and convert to PDF. Returns (html_path, zip_path)."""
     html_path = save_html(html, name)
     pdf_path = html_to_pdf(html_path)
-    return html_path, pdf_path
+    # Create zip for WhatsApp (it blocks raw .html files)
+    zip_path = html_path.with_suffix(".zip")
+    import zipfile
+    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+        zf.write(html_path, html_path.name)
+    return html_path, zip_path
