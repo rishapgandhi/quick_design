@@ -11,7 +11,7 @@ from src.core.pptx_builder import PPTX_PROMPT, create_pptx, get_color_scheme
 GENERATE_TOOLS = [
     Tool(
         name="generate_pitch_deck",
-        description="Generate a pitch deck PDF for a product/project. Returns the PDF file path for sending.",
+        description="Generate a pitch deck HTML for a product/project. Returns the HTML file path for sending.",
         inputSchema={
             "type": "object",
             "properties": {
@@ -37,7 +37,7 @@ GENERATE_TOOLS = [
     ),
     Tool(
         name="generate_landing_page",
-        description="Generate a landing page design as PDF. Returns the PDF file path for sending.",
+        description="Generate a landing page design as HTML. Returns the HTML file path for sending.",
         inputSchema={
             "type": "object",
             "properties": {
@@ -49,7 +49,7 @@ GENERATE_TOOLS = [
     ),
     Tool(
         name="generate_dashboard",
-        description="Generate an analytics/admin dashboard design as PDF. Returns the PDF file path for sending.",
+        description="Generate an analytics/admin dashboard design as HTML. Returns the HTML file path for sending.",
         inputSchema={
             "type": "object",
             "properties": {
@@ -61,7 +61,7 @@ GENERATE_TOOLS = [
     ),
     Tool(
         name="generate_email_template",
-        description="Generate a branded email template as PDF. Returns the PDF file path for sending.",
+        description="Generate a branded email template as HTML. Returns the HTML file path for sending.",
         inputSchema={
             "type": "object",
             "properties": {
@@ -73,7 +73,7 @@ GENERATE_TOOLS = [
     ),
     Tool(
         name="generate_social_post",
-        description="Generate a social media post design as PDF. Returns the PDF file path for sending.",
+        description="Generate a social media post design as HTML. Returns the HTML file path for sending.",
         inputSchema={
             "type": "object",
             "properties": {
@@ -138,9 +138,10 @@ async def handle_generate(name: str, arguments: dict) -> str:
     html_path, pdf_path = render(html, filename)
 
     return json.dumps({
-        "pdf_path": str(pdf_path),
         "html_path": str(html_path),
-        "summary": f"Generated {skill_id.replace('_', ' ')} with '{design_system}' design system. PDF ready at: {pdf_path}",
+        "pdf_path": str(pdf_path),
+        "send_file": str(html_path),
+        "summary": f"Generated {skill_id.replace('_', ' ')} with '{design_system}' design system. Send this HTML file to the user: {html_path}",
     }, indent=2)
 
 
