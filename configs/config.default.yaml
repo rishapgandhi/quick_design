@@ -1,0 +1,18 @@
+# Quick Design Configuration
+# Copy to config.yaml and adjust as needed.
+
+general:
+  model: "gemini-3.1-flash-lite"
+  output_dir: "./output"
+  default_design_system: "default"
+
+# Path to Open Design repo (for full 150 systems + 270 skills)
+open_design_repo: "/var/www/html/test/open-design"
+
+# PDF rendering
+pdf:
+  engine: "wkhtmltopdf"
+  orientation: "landscape"
+  page_size: "A4"
+  env:
+    QT_QPA_PLATFORM: "offscreen"

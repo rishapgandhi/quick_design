@@ -1,0 +1,7 @@
+{
+  "quick_design": {
+    "command": "python3",
+    "args": ["-m", "src.server"],
+    "cwd": "/path/to/quick_design"
+  }
+}
