@@ -123,6 +123,11 @@ async def handle_generate(name: str, arguments: dict) -> str:
     }
     skill_id = skill_map[name]
 
+    # Auto-detect custom skills from brief keywords
+    brief_lower = brief.lower()
+    if "ferrari" in brief_lower and ("theme" in brief_lower or "style" in brief_lower or "automotive" in brief_lower or "car" in brief_lower):
+        skill_id = "ferrari_automotive"
+
     context_parts = []
     if name == "generate_pitch_deck":
         context_parts.append(f"Generate exactly {arguments.get('slides', 5)} slides.")

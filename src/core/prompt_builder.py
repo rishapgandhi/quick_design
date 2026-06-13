@@ -180,10 +180,13 @@ def build_prompt(skill_id: str, design_system_id: str, brief: str, **kwargs) -> 
     design_system = _truncate_design_system(load_design_system(design_system_id))
     craft = _load_craft()
 
+    # Custom skills with baked-in CSS don't need PDF constraints
+    skip_pdf = skill_id in ("ferrari_automotive",) or "EXACT CSS" in skill
+
     prompt = f"""You are a senior design engineer at a top-tier design agency.
 You produce artifacts that look like they were handcrafted by a human designer who has shipped real products — NOT like generic AI output.
 
-{PDF_CONSTRAINTS}
+{'' if skip_pdf else PDF_CONSTRAINTS}
 
 ---
 
