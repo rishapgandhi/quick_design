@@ -1,0 +1,8 @@
+.env
+output/*.html
+output/*.pdf
+output/*.pptx
+output/*.zip
+__pycache__/
+*.pyc
+*.egg-info/
