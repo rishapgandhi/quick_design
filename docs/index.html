@@ -1,22 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quick Design — MCP Server for Instant Design Generation</title>
-<meta name="description" content="Generate professional HTML, PDF, and PPTX designs in seconds. 150 design systems, 270+ skills. Built on Open Design.">
-<style>
-body { font-family: -apple-system, system-ui, sans-serif; max-width: 700px; margin: 60px auto; padding: 0 20px; color: #111; line-height: 1.6; }
-h1 { font-size: 32px; margin-bottom: 8px; }
-.tagline { color: #666; font-size: 18px; margin-bottom: 40px; }
-code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 14px; }
-a { color: #DA291C; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quick Design — Instant Design Generation MCP Server</title>
+  <meta name="description" content="MCP server for instant design generation. 150 design systems, 270+ skills. PDF, PPTX, HTML output. Built on Open Design.">
+  <meta name="keywords" content="quick design, mcp server, design generation, open design, gemini, openclaw, pdf generator, html generator, ai design">
+  <meta property="og:title" content="Quick Design — Instant Design Generation">
+  <meta property="og:description" content="150 design systems. 270+ skills. PDF/PPTX/HTML in seconds. Built on Open Design.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rishapgandhi.github.io/quick_design/">
+  <link rel="canonical" href="https://rishapgandhi.github.io/quick_design/">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #000000; color: #ffffff; overflow-x: hidden; }
+
+    /* Nav */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%); }
+    .nav-brand { font-size: 14px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #DA291C; }
+    .nav-links a { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.7); text-decoration: none; margin-left: 28px; letter-spacing: 0.5px; }
+
+    /* Hero */
+    .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: linear-gradient(160deg, #1a0000 0%, #000000 40%, #1a0505 100%); position: relative; }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(218,41,28,0.06) 0%, transparent 60%); }
+    .hero-icon { width: 72px; height: 72px; border: 2px solid #DA291C; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 36px; box-shadow: 0 0 40px rgba(218,41,28,0.2); position: relative; z-index: 1; }
+    .hero-icon span { font-size: 24px; font-weight: 700; color: #DA291C; }
+    h1 { font-size: 52px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; position: relative; z-index: 1; }
+    .tagline { font-size: 16px; color: rgba(255,255,255,0.5); margin-bottom: 36px; position: relative; z-index: 1; max-width: 500px; line-height: 1.6; }
+    .badges { margin-bottom: 36px; position: relative; z-index: 1; }
+    .badges img { margin: 4px; }
+
+    /* Buttons */
+    .btn-red { display: inline-block; padding: 14px 32px; background: #DA291C; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 2px; text-decoration: none; margin: 6px; }
+    .btn-ghost { display: inline-block; padding: 14px 32px; background: transparent; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 2px; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); margin: 6px; }
+
+    /* Section styling */
+    .section-dark { padding: 80px 40px; background: linear-gradient(180deg, #000000 0%, #120000 100%); }
+    .section-red { padding: 80px 40px; background: linear-gradient(180deg, #DA291C 0%, #8b0000 100%); }
+    .section-subtle { padding: 80px 40px; background: linear-gradient(180deg, #1a0808 0%, #0a0a0a 100%); }
+    .container { max-width: 900px; margin: 0 auto; }
+    .text-center { text-align: center; }
+
+    /* Labels */
+    .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.4); margin-bottom: 20px; display: block; }
+    .red-line { width: 60px; height: 3px; background: #DA291C; margin: 0 auto 24px auto; }
+
+    /* Features grid */
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+    .feature { background: rgba(218,41,28,0.04); padding: 28px; border-radius: 2px; border: 1px solid rgba(218,41,28,0.1); }
+    .feature h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #ffffff; }
+    .feature p { font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.5); }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+    .stat { text-align: center; padding: 40px 16px; border-right: 1px solid rgba(0,0,0,0.2); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-size: 44px; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 6px; }
+    .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.7); }
+
+    /* Install */
+    .install-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(218,41,28,0.15); border-radius: 2px; padding: 24px 32px; margin: 32px auto; max-width: 700px; }
+    .install-box code { font-family: 'SF Mono', 'Consolas', monospace; font-size: 14px; color: #DA291C; }
+
+    /* Tools table */
+    .tools-table { width: 100%; border-collapse: collapse; margin-top: 32px; }
+    .tools-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.4); text-align: left; padding: 12px 16px; border-bottom: 1px solid rgba(218,41,28,0.15); }
+    .tools-table td { font-size: 13px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: rgba(255,255,255,0.7); }
+    .tools-table td:first-child { color: #ffffff; font-weight: 600; font-family: 'SF Mono', monospace; font-size: 12px; }
+
+    /* Footer */
+    footer { padding: 48px 40px; border-top: 1px solid rgba(218,41,28,0.15); text-align: center; background: #000; }
+    footer p { font-size: 13px; color: rgba(255,255,255,0.3); }
+    footer a { color: #DA291C; text-decoration: none; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 36px; }
+      .features { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .hero { padding: 60px 20px; }
+    }
+  </style>
 </head>
 <body>
-<h1>Quick Design</h1>
-<p class="tagline">MCP server for instant design generation — 150 design systems, 270+ skills.</p>
-<p>Built on <a href="https://github.com/nexu-io/open-design">Open Design</a>. Works with OpenClaw, Claude Code, Kiro, Cursor.</p>
-<p><a href="https://github.com/rishapgandhi/quick_design">GitHub Repository →</a></p>
+
+<nav>
+  <div class="nav-brand">Quick Design</div>
+  <div class="nav-links">
+    <a href="https://github.com/rishapgandhi/quick_design">GitHub</a>
+    <a href="https://github.com/rishapgandhi/quick_design/wiki">Wiki</a>
+    <a href="https://github.com/rishapgandhi/quick_design/discussions">Discuss</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-icon"><span>QD</span></div>
+  <h1>Instant Design<br>Generation</h1>
+  <p class="tagline">MCP server that generates professional HTML, PDF, and PPTX in seconds. 150 design systems. 270+ skills. One API call.</p>
+  <div class="badges">
+    <img src="https://img.shields.io/github/v/release/rishapgandhi/quick_design?color=DA291C&style=flat-square" alt="Release">
+    <img src="https://img.shields.io/github/license/rishapgandhi/quick_design?color=333&style=flat-square" alt="License">
+    <img src="https://img.shields.io/badge/skills-270+-DA291C?style=flat-square" alt="Skills">
+    <img src="https://img.shields.io/badge/design_systems-150-333?style=flat-square" alt="Systems">
+  </div>
+  <div>
+    <a href="https://github.com/rishapgandhi/quick_design" class="btn-red">GitHub Repo</a>
+    <a href="https://github.com/rishapgandhi/quick_design/wiki" class="btn-ghost">Documentation</a>
+  </div>
+</section>
+
+<!-- Stats on full red -->
+<section class="section-red">
+  <div class="container">
+    <div class="stats">
+      <div class="stat"><div class="stat-num">150</div><div class="stat-label">Design Systems</div></div>
+      <div class="stat"><div class="stat-num">270+</div><div class="stat-label">Skills</div></div>
+      <div class="stat"><div class="stat-num">9</div><div class="stat-label">MCP Tools</div></div>
+      <div class="stat"><div class="stat-num">500</div><div class="stat-label">Free Req/Day</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section-dark">
+  <div class="container text-center">
+    <span class="label">Capabilities</span>
+    <div class="red-line"></div>
+    <h2 style="font-size:28px;font-weight:500;margin-bottom:12px;">Feed a skill. Get production HTML.</h2>
+    <p style="color:rgba(255,255,255,0.5);font-size:15px;">Built on <a href="https://github.com/nexu-io/open-design" style="color:#DA291C;">Open Design</a> — the open-source Claude Design alternative.</p>
+    <div class="features">
+      <div class="feature"><h3>Pitch Decks</h3><p>Multi-slide PDF and PowerPoint presentations with brand-accurate styling.</p></div>
+      <div class="feature"><h3>Landing Pages</h3><p>Full marketing pages with hero, features, CTA — any design system applied.</p></div>
+      <div class="feature"><h3>Dashboards</h3><p>KPI dashboards with SVG charts, data tables, and sidebar navigation.</p></div>
+      <div class="feature"><h3>Email Templates</h3><p>Table-based HTML emails compatible with all email clients.</p></div>
+      <div class="feature"><h3>HyperFrames</h3><p>GSAP-powered motion graphics as standalone HTML animations.</p></div>
+      <div class="feature"><h3>Custom Skills</h3><p>Bake exact CSS into a skill file — get consistent output every time.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Tools table -->
+<section class="section-subtle">
+  <div class="container">
+    <span class="label text-center" style="display:block;">Available Tools</span>
+    <div class="red-line"></div>
+    <table class="tools-table">
+      <thead><tr><th>Tool</th><th>Output</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>generate_pitch_deck</td><td>PDF</td><td>Multi-slide pitch deck</td></tr>
+        <tr><td>generate_pitch_deck_pptx</td><td>PPTX</td><td>PowerPoint file</td></tr>
+        <tr><td>generate_landing_page</td><td>PDF</td><td>Marketing landing page</td></tr>
+        <tr><td>generate_dashboard</td><td>PDF</td><td>Analytics/KPI dashboard</td></tr>
+        <tr><td>generate_email_template</td><td>PDF</td><td>Branded email</td></tr>
+        <tr><td>generate_social_post</td><td>PDF</td><td>Social media graphic</td></tr>
+        <tr><td>generate_hyperframes</td><td>HTML</td><td>GSAP animation</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Install -->
+<section class="section-dark text-center">
+  <div class="container">
+    <span class="label">Quick Start</span>
+    <div class="red-line"></div>
+    <h2 style="font-size:24px;font-weight:500;margin-bottom:8px;">One command install</h2>
+    <div class="install-box">
+      <code>git clone https://github.com/rishapgandhi/quick_design && cd quick_design && bash install.sh</code>
+    </div>
+    <p style="color:rgba(255,255,255,0.4);font-size:13px;margin-top:16px;">Works with OpenClaw · Claude Code · Kiro · Cursor · Any MCP-compatible agent</p>
+  </div>
+</section>
+
+<footer>
+  <p>Built by <a href="https://github.com/rishapgandhi">Rishap Gandhi</a> · MIT License · Built on <a href="https://github.com/nexu-io/open-design">Open Design</a></p>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Quick Design",
+  "description": "MCP server for instant design generation. 150 design systems, 270+ skills. PDF/PPTX/HTML output.",
+  "url": "https://rishapgandhi.github.io/quick_design/",
+  "applicationCategory": "DeveloperApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "Rishap Gandhi", "url": "https://github.com/rishapgandhi" },
+  "softwareVersion": "1.0.0",
+  "license": "https://opensource.org/licenses/MIT",
+  "codeRepository": "https://github.com/rishapgandhi/quick_design"
+}
+</script>
 </body>
 </html>
