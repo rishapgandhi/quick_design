@@ -1,5 +1,6 @@
 # Environment
 .env
+summary.md
 
 # Python
 __pycache__/
